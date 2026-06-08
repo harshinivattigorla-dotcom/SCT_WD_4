@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do Web App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:white;
+    width:90%;
+    max-width:700px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+.input-section{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.input-section input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    background:#667eea;
+    color:white;
+}
+
+button:hover{
+    background:#5563d6;
+}
+
+ul{
+    list-style:none;
+    margin-top:20px;
+}
+
+li{
+    background:#f4f4f4;
+    margin:10px 0;
+    padding:12px;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.completed{
+    text-decoration:line-through;
+    color:gray;
+}
+
+.task-info{
+    flex:1;
+}
+
+.actions button{
+    margin-left:5px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 To-Do Web App</h1>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter Task">
+        <input type="datetime-local" id="taskDate">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+function addTask(){
+    let taskInput=document.getElementById("taskInput");
+    let taskDate=document.getElementById("taskDate");
+    let taskList=document.getElementById("taskList");
+
+    if(taskInput.value.trim()===""){
+        alert("Please enter a task");
+        return;
+    }
+
+    let li=document.createElement("li");
+
+    li.innerHTML=`
+        <div class="task-info">
+            <strong>${taskInput.value}</strong><br>
+            <small>${taskDate.value}</small>
+        </div>
+
+        <div class="actions">
+            <button onclick="completeTask(this)">✔</button>
+            <button onclick="editTask(this)">✏️</button>
+            <button onclick="deleteTask(this)">🗑️</button>
+        </div>
+    `;
+
+    taskList.appendChild(li);
+
+    taskInput.value="";
+    taskDate.value="";
+}
+
+function completeTask(button){
+    button.parentElement.parentElement.classList.toggle("completed");
+}
+
+function editTask(button){
+    let task=button.parentElement.parentElement.querySelector("strong");
+    let updatedTask=prompt("Edit Task",task.innerText);
+
+    if(updatedTask){
+        task.innerText=updatedTask;
+    }
+}
+
+function deleteTask(button){
+    button.parentElement.parentElement.remove();
+}
+</script>
+
+</body>
+</html>
